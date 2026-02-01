@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Controle de Metas - Posto</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+  margin: 20px;
+}
+h1 { text-align: center; }
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+input, select {
+  width: 100%;
+  padding: 6px;
+  margin-top: 4px;
+}
+button {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
+}
+.progress {
+  background: #ddd;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+.progress-bar {
+  height: 22px;
+  background: #28a745;
+  width: 0%;
+  color: #fff;
+  text-align: center;
+  font-size: 12px;
+}
+.meta-box {
+  margin-top: 15px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h1>Controle de Metas - Posto</h1>
+
+<label>Data</label>
+<input type="date" id="data">
+
+<label>Turno</label>
+<select id="turno">
+  <option>Manhã</option>
+  <option>Tarde</option>
+</select>
+
+<label>Frentista</label>
+<select id="frentista">
+  <option>Gabriel</option>
+  <option>Robson</option>
+  <option>Daniel</option>
+  <option>Vinícius</option>
+  <option>Vitor</option>
+  <option>Genival</option>
+  <option>Adson</option>
+  <option>Eduardo</option>
+</select>
+
+<label>Gasolina Comum (L)</label>
+<input type="number" id="gc" step="0.001">
+
+<label>Gasolina Aditivada (L)</label>
+<input type="number" id="ga" step="0.001">
+
+<label>Etanol (L)</label>
+<input type="number" id="et" step="0.001">
+
+<label>Diesel Comum (L)</label>
+<input type="number" id="dc" step="0.001">
+
+<label>Diesel S10 (L)</label>
+<input type="number" id="ds10" step="0.001">
+
+<label>Produtos (quantidade)</label>
+<input type="number" id="prod">
+
+<button onclick="salvar()">Salvar Lançamento</button>
+
+<h2>Progresso Mensal</h2>
+
+<div class="meta-box">
+Gasolina Comum
+<div class="progress"><div id="p_gc" class="progress-bar"></div></div>
+</div>
+
+<div class="meta-box">
+Gasolina Aditivada
+<div class="progress"><div id="p_ga" class="progress-bar"></div></div>
+</div>
+
+<div class="meta-box">
+Etanol
+<div class="progress"><div id="p_et" class="progress-bar"></div></div>
+</div>
+
+<div class="meta-box">
+Diesel Comum
+<div class="progress"><div id="p_dc" class="progress-bar"></div></div>
+</div>
+
+<div class="meta-box">
+Diesel S10
+<div class="progress"><div id="p_ds10" class="progress-bar"></div></div>
+</div>
+
+</div>
+
+<script>
+const metas = {
+  gc: 9310,
+  ga: 2500,
+  et: 2100,
+  dc: 6700,
+  ds10: 4200
+};
+
+function salvar() {
+  const mes = new Date().getMonth() + 1;
+  let dados = JSON.parse(localStorage.getItem("dados_"+mes)) || {
+    gc:0, ga:0, et:0, dc:0, ds10:0
+  };
+
+  dados.gc += Number(gc.value || 0);
+  dados.ga += Number(ga.value || 0);
+  dados.et += Number(et.value || 0);
+  dados.dc += Number(dc.value || 0);
+  dados.ds10 += Number(ds10.value || 0);
+
+  localStorage.setItem("dados_"+mes, JSON.stringify(dados));
+  atualizar();
+  alert("Lançamento salvo!");
+}
+
+function atualizar() {
+  const mes = new Date().getMonth() + 1;
+  let dados = JSON.parse(localStorage.getItem("dados_"+mes)) || {
+    gc:0, ga:0, et:0, dc:0, ds10:0
+  };
+
+  for (let k in metas) {
+    let perc = Math.min((dados[k] / metas[k]) * 100, 100);
+    let bar = document.getElementById("p_"+k);
+    bar.style.width = perc + "%";
+    bar.innerText = perc.toFixed(1) + "%";
+  }
+}
+
+atualizar();
+</script>
+
+</body>
+</html>
