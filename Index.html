@@ -2,60 +2,103 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Controle de Metas - Posto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Controle da Meta - Posto Nortão</title>
+
 <style>
-body {
+body{
+  margin:0;
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
-  margin: 20px;
+  background:#f2f2f2;
 }
-h1 { text-align: center; }
-.container {
-  max-width: 900px;
-  margin: auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
+
+.topo-vermelho{height:8px;background:#c00000;}
+.topo-azul{height:6px;background:#0033a0;}
+
+.faixa-meio{
+  background:#c00000;
+  color:#fff;
+  text-align:center;
+  padding:10px;
+  font-size:20px;
+  font-weight:bold;
 }
-label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
+
+.subtitulo{
+  text-align:center;
+  font-weight:bold;
+  margin:10px 0;
 }
-input, select {
-  width: 100%;
-  padding: 6px;
-  margin-top: 4px;
+
+.container{
+  max-width:900px;
+  margin:auto;
+  background:#fff;
+  padding:15px;
+  border-radius:8px;
 }
-button {
-  margin-top: 15px;
-  padding: 10px;
-  width: 100%;
-  font-size: 16px;
+
+label{
+  font-weight:bold;
+  margin-top:10px;
+  display:block;
 }
-.progress {
-  background: #ddd;
-  border-radius: 20px;
-  overflow: hidden;
-  margin-top: 5px;
+
+input, select{
+  width:100%;
+  padding:10px;
+  font-size:16px;
+  margin-top:4px;
 }
-.progress-bar {
-  height: 22px;
-  background: #28a745;
-  width: 0%;
-  color: #fff;
-  text-align: center;
-  font-size: 12px;
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  font-size:16px;
+  font-weight:bold;
 }
-.meta-box {
-  margin-top: 15px;
+
+.progress{
+  background:#ddd;
+  border-radius:20px;
+  overflow:hidden;
+  margin-top:5px;
+}
+
+.progress-bar{
+  height:22px;
+  background:#28a745;
+  color:#fff;
+  text-align:center;
+  font-size:12px;
+}
+
+.relatorio{
+  margin-top:20px;
+  font-size:14px;
+}
+
+.relatorio-item{
+  border-bottom:1px solid #ccc;
+  padding:5px 0;
+}
+
+@media(max-width:600px){
+  .faixa-meio{font-size:16px;}
 }
 </style>
 </head>
+
 <body>
 
+<div class="topo-vermelho"></div>
+<div class="topo-azul"></div>
+
+<div class="faixa-meio">CONTROLE DA META</div>
+<div class="subtitulo">POSTO NORTÃO</div>
+
 <div class="container">
-<h1>Controle de Metas - Posto</h1>
 
 <label>Data</label>
 <input type="date" id="data">
@@ -78,92 +121,83 @@ button {
   <option>Eduardo</option>
 </select>
 
-<label>Gasolina Comum (L)</label>
-<input type="number" id="gc" step="0.001">
-
-<label>Gasolina Aditivada (L)</label>
-<input type="number" id="ga" step="0.001">
-
-<label>Etanol (L)</label>
-<input type="number" id="et" step="0.001">
-
-<label>Diesel Comum (L)</label>
-<input type="number" id="dc" step="0.001">
-
-<label>Diesel S10 (L)</label>
-<input type="number" id="ds10" step="0.001">
+<label>Gasolina Comum (L)</label><input id="gc" type="number" step="0.001">
+<label>Gasolina Aditivada (L)</label><input id="ga" type="number" step="0.001">
+<label>Etanol (L)</label><input id="et" type="number" step="0.001">
+<label>Diesel Comum (L)</label><input id="dc" type="number" step="0.001">
+<label>Diesel S10 (L)</label><input id="ds10" type="number" step="0.001">
 
 <label>Produtos (quantidade)</label>
-<input type="number" id="prod">
+<input id="prod" type="number">
 
 <button onclick="salvar()">Salvar Lançamento</button>
 
-<h2>Progresso Mensal</h2>
+<h3>Progresso Mensal</h3>
 
-<div class="meta-box">
-Gasolina Comum
-<div class="progress"><div id="p_gc" class="progress-bar"></div></div>
-</div>
+<div>Gasolina Comum<div class="progress"><div id="p_gc" class="progress-bar"></div></div></div>
+<div>Gasolina Aditivada<div class="progress"><div id="p_ga" class="progress-bar"></div></div></div>
+<div>Etanol<div class="progress"><div id="p_et" class="progress-bar"></div></div></div>
+<div>Diesel Comum<div class="progress"><div id="p_dc" class="progress-bar"></div></div></div>
+<div>Diesel S10<div class="progress"><div id="p_ds10" class="progress-bar"></div></div></div>
+<div>Produtos<div class="progress"><div id="p_prod" class="progress-bar"></div></div></div>
 
-<div class="meta-box">
-Gasolina Aditivada
-<div class="progress"><div id="p_ga" class="progress-bar"></div></div>
-</div>
+<h3>Relatório do Mês</h3>
+<div id="relatorio" class="relatorio"></div>
 
-<div class="meta-box">
-Etanol
-<div class="progress"><div id="p_et" class="progress-bar"></div></div>
-</div>
-
-<div class="meta-box">
-Diesel Comum
-<div class="progress"><div id="p_dc" class="progress-bar"></div></div>
-</div>
-
-<div class="meta-box">
-Diesel S10
-<div class="progress"><div id="p_ds10" class="progress-bar"></div></div>
-</div>
+<button onclick="enviarWhats()">Enviar Relatório WhatsApp</button>
+<button onclick="limparMes()">Limpar Mês</button>
 
 </div>
 
 <script>
-const metas = {
-  gc: 9310,
-  ga: 2500,
-  et: 2100,
-  dc: 6700,
-  ds10: 4200
-};
+const metas={gc:9310,ga:2500,et:2100,dc:6700,ds10:4200,prod:3000};
 
-function salvar() {
-  const mes = new Date().getMonth() + 1;
-  let dados = JSON.parse(localStorage.getItem("dados_"+mes)) || {
-    gc:0, ga:0, et:0, dc:0, ds10:0
+function salvar(){
+  const mes=new Date().getMonth()+1;
+  let dados=JSON.parse(localStorage.getItem("mes_"+mes))||{registros:[],tot:{gc:0,ga:0,et:0,dc:0,ds10:0,prod:0}};
+  
+  const r={
+    data:data.value,turno:turno.value,frentista:frentista.value,
+    gc:+gc.value||0,ga:+ga.value||0,et:+et.value||0,dc:+dc.value||0,ds10:+ds10.value||0,prod:+prod.value||0
   };
 
-  dados.gc += Number(gc.value || 0);
-  dados.ga += Number(ga.value || 0);
-  dados.et += Number(et.value || 0);
-  dados.dc += Number(dc.value || 0);
-  dados.ds10 += Number(ds10.value || 0);
+  dados.registros.push(r);
+  for(let k in dados.tot){dados.tot[k]+=r[k];}
 
-  localStorage.setItem("dados_"+mes, JSON.stringify(dados));
+  localStorage.setItem("mes_"+mes,JSON.stringify(dados));
   atualizar();
-  alert("Lançamento salvo!");
+  alert("Lançamento salvo");
 }
 
-function atualizar() {
-  const mes = new Date().getMonth() + 1;
-  let dados = JSON.parse(localStorage.getItem("dados_"+mes)) || {
-    gc:0, ga:0, et:0, dc:0, ds10:0
-  };
+function atualizar(){
+  const mes=new Date().getMonth()+1;
+  let dados=JSON.parse(localStorage.getItem("mes_"+mes));
+  if(!dados)return;
 
-  for (let k in metas) {
-    let perc = Math.min((dados[k] / metas[k]) * 100, 100);
-    let bar = document.getElementById("p_"+k);
-    bar.style.width = perc + "%";
-    bar.innerText = perc.toFixed(1) + "%";
+  for(let k in metas){
+    let p=Math.min((dados.tot[k]/metas[k])*100,100);
+    let b=document.getElementById("p_"+k);
+    b.style.width=p+"%";
+    b.innerText=dados.tot[k].toFixed(1);
+  }
+
+  let rel="";
+  dados.registros.forEach(r=>{
+    rel+=`<div class="relatorio-item">${r.data} | ${r.turno} | ${r.frentista} → GC:${r.gc} GA:${r.ga} ET:${r.et} DC:${r.dc} S10:${r.ds10} PROD:${r.prod}</div>`;
+  });
+  document.getElementById("relatorio").innerHTML=rel;
+}
+
+function enviarWhats(){
+  const texto=document.getElementById("relatorio").innerText;
+  window.open("https://wa.me/?text="+encodeURIComponent(texto));
+}
+
+function limparMes(){
+  if(confirm("Deseja limpar os dados do mês?")){
+    const mes=new Date().getMonth()+1;
+    localStorage.removeItem("mes_"+mes);
+    location.reload();
   }
 }
 
